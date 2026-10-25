@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shadow Grid — A* Stealth Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">PROYEK ALGORITMA • GAME 2D</p>
+        <h1>Shadow Grid</h1>
+        <p class="subtitle">Sembunyi, baca jalur, dan capai pintu keluar tanpa tertangkap.</p>
+      </div>
+      <div class="header-actions">
+        <span class="pill"><span class="live-dot"></span> Prototype playable</span>
+        <button id="restartBtn" class="button button-primary">↻ Restart</button>
+      </div>
+    </header>
+
+    <section class="layout">
+      <section class="game-panel panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Area permainan</h2>
+            <p>Gerakkan player dengan WASD atau tombol panah.</p>
+          </div>
+          <button id="debugBtn" class="button button-secondary" aria-pressed="false">Debug: OFF</button>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="gameCanvas" width="750" height="550" aria-label="Game grid stealth"></canvas>
+        </div>
+        <div class="legend" aria-label="Legenda permainan">
+          <span><i class="legend-dot player-dot"></i> Player</span>
+          <span><i class="legend-dot enemy-dot"></i> Enemy</span>
+          <span><i class="legend-dot target-dot"></i> Exit</span>
+          <span><i class="legend-square wall-dot"></i> Tembok</span>
+          <span><i class="legend-line path-dot"></i> Jalur A*</span>
+        </div>
+      </section>
+
+      <aside class="side-column">
+        <section class="panel status-panel">
+          <div class="panel-heading compact"><h2>Status permainan</h2><span id="gameStatusBadge" class="status-badge">BERMAIN</span></div>
+          <div class="stat-grid">
+            <div class="stat-card"><span class="stat-label">Status enemy</span><strong id="enemyMode" class="stat-value">PATROL</strong></div>
+            <div class="stat-card"><span class="stat-label">Jarak pandang</span><strong id="distanceValue" class="stat-value">—</strong></div>
+          </div>
+          <div id="sightMessage" class="notice notice-neutral">Enemy belum mendeteksi player.</div>
+          <div id="gameMessage" class="game-message">Cari jalan menuju exit hijau.</div>
+        </section>
+
+        <section class="panel instructions-panel">
+          <div class="panel-heading compact"><h2>Kontrol</h2></div>
+          <div class="control-row"><span class="keycap">W</span><span class="keycap">A</span><span class="keycap">S</span><span class="keycap">D</span><span class="control-description">Gerak</span></div>
+          <div class="control-row"><span class="keycap keycap-wide">↑ ↓ ← →</span><span class="control-description">Alternatif kontrol</span></div>
+          <div class="control-row"><span class="keycap keycap-wide">R</span><span class="control-description">Restart permainan</span></div>
+          <div class="control-row"><span class="keycap keycap-wide">G</span><span class="control-description">Aktif/nonaktifkan debug</span></div>
+          <p class="hint">Tip: tembok memutus garis pandang. Manfaatkan lorong dan obstacle untuk menghindari enemy.</p>
+        </section>
+
+        <section class="panel algorithm-panel">
+          <div class="panel-heading compact"><h2>Logika yang berjalan</h2></div>
+          <div class="algorithm-item"><span class="algorithm-number">01</span><div><strong>Grid 2D</strong><p>0 = lantai, 1 = tembok</p></div></div>
+          <div class="algorithm-item"><span class="algorithm-number">02</span><div><strong>Line of Sight</strong><p>Radius Euclidean + Bresenham</p></div></div>
+          <div class="algorithm-item"><span class="algorithm-number">03</span><div><strong>A* Pathfinding</strong><p>g(n) + h(n), heuristic Manhattan</p></div></div>
+          <div class="algorithm-item"><span class="algorithm-number">04</span><div><strong>Enemy Behaviour</strong><p>Patrol saat tidak melihat, chase saat melihat</p></div></div>
+        </section>
+      </aside>
+    </section>
+
+    <footer class="footer-note">
+      <span>Shadow Grid · Prototipe pembelajaran</span>
+      <span>Grid 4 arah · A* · Bresenham LOS</span>
+    </footer>
+  </main>
+
+  <div id="endOverlay" class="end-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="endTitle">
+    <div class="end-card">
+      <div id="endIcon" class="end-icon">✓</div>
+      <p class="eyebrow">PERMAINAN SELESAI</p>
+      <h2 id="endTitle">Kamu berhasil!</h2>
+      <p id="endDescription">Kamu sampai ke exit.</p>
+      <button id="overlayRestartBtn" class="button button-primary">Main lagi</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/los.js"></script>
+  <script src="js/astar.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/enemy.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
